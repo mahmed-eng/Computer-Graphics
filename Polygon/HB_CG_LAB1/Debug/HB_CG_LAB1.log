@@ -1,0 +1,3 @@
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (HB_CG_LAB1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  main_lab.cpp
+  HB_CG_LAB1.vcxproj -> C:\Users\diner\Downloads\Drive\BSCS\Sem 6\CG\Lab\Ahmed\Polygon\HB_CG_LAB1\Debug\Polygons.exe
