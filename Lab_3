@@ -1,0 +1,748 @@
+//Dino Fixed View Port#include <stdio.h>
+/*
+#include <fstream>
+#include <iostream>
+#include <windows.h>
+#include <GL/GL.h>
+#include <GL/glut.h>
+#include <math.h>
+
+using namespace std;
+
+const int screenWidth = 640;
+const int screenHeight = 480;
+
+const double fixedViewportWidth = 800.0; // Adjust this value as needed
+const double fixedViewportHeight = 600.0; // Adjust this value as needed
+
+void myInit(void) {
+    glClearColor(1.0, 1.0, 1.0, 1.0);
+    glColor3f(0.0f, 0.0f, 0.0f);
+    glPointSize(1.0);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+
+    // Set up an orthographic projection that maintains a fixed viewport size
+    double aspectRatio = fixedViewportWidth / fixedViewportHeight;
+    double scaleX = screenWidth / fixedViewportWidth;
+    double scaleY = screenHeight / fixedViewportHeight;
+
+    if (aspectRatio > 1.0) {
+        glOrtho(0.0, fixedViewportWidth, 0.0, fixedViewportHeight * aspectRatio, -1.0, 1.0);
+    }
+    else {
+        glOrtho(0.0, fixedViewportWidth / aspectRatio, 0.0, fixedViewportHeight, -1.0, 1.0);
+    }
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+}
+
+void drawPolyLineFile() {
+    fstream inStream;
+    inStream.open("dino.dat", ios::in);
+    if (inStream.fail())
+        return;
+    glClear(GL_COLOR_BUFFER_BIT);
+    GLint numpolys, numLines, x, y;
+    inStream >> numpolys;
+    for (int j = 0; j < numpolys; j++) {
+        inStream >> numLines;
+        glBegin(GL_LINE_STRIP);
+        for (int i = 0; i < numLines; i++) {
+            inStream >> x >> y;
+            glVertex2i(x, y);
+        }
+        glEnd();
+    }
+    glFlush();
+    inStream.close();
+}
+
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowSize(screenWidth, screenHeight);
+    glutInitWindowPosition(100, 150);
+    glutCreateWindow("Dino Boi");
+    glutDisplayFunc(drawPolyLineFile);
+    myInit();
+    glutMainLoop();
+    return 0;
+}
+*/
+//Dino Zoom In , Zoom Out
+/*
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <GL/glut.h>
+#include <windows.h>
+
+using namespace std;
+
+int screenWidth = 1024;
+int screenHeight = 1024;
+
+void myDisplay(void)
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glClearColor(0.9f, 0.9f, 0.9f, 0.0);
+	glColor3f(1, 0, 0);
+	glFlush();
+}
+
+int main(int argc, char** argv) 
+{
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+
+	glutInitWindowSize(screenWidth,screenHeight);
+	glutInitWindowPosition(30, 30);
+	glutCreateWindow("HT First OGL Program");
+
+	glutDisplayFunc(myDisplay);
+	PlaySoundA("applause.wav",NULL,SND_SYNC);
+
+	glutMainLoop();
+
+	return 0;
+}
+*/
+
+//Dino
+
+/*
+#include <stdio.h>
+#include <fstream>
+#include <iostream>
+#include <windows.h>
+#include <GL/GL.h>
+#include <GL/glut.h>
+#include <math.h>
+
+using namespace std;
+
+const int screenWidth = 640;
+const int screenHeight = 480;
+
+void myInit(void) {
+    glClearColor(1.0, 1.0, 1.0, 1.0);
+    glColor3f(0.0f, 0.0f, 0.0f);
+    glPointSize(1.0);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(0.0, (GLdouble)screenWidth, 0.0, (GLdouble)screenHeight);
+}
+
+void drawPolyLineFile() {
+    fstream inStream;
+    inStream.open("dino.dat", ios::in);
+    if (inStream.fail())
+        return;
+    glClear(GL_COLOR_BUFFER_BIT);
+    GLint numpolys, numLines, x, y;
+    inStream >> numpolys;
+    for (int j = 0; j < numpolys; j++) {
+        inStream >> numLines;
+        glBegin(GL_LINE_STRIP);
+        for (int i = 0; i < numLines; i++) {
+            inStream >> x >> y;
+            glVertex2i(x, y);
+        }
+        glEnd();
+    }
+    glFlush();
+    inStream.close();
+}
+
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowSize(640, 480);
+    glutInitWindowPosition(100, 150);
+    glutCreateWindow("Dino Boi");
+    glutDisplayFunc(drawPolyLineFile);
+    myInit();
+    glutMainLoop();
+    return 0;
+}
+*/
+
+//Flip Dino
+
+/*
+#include <stdio.h>
+#include <fstream>
+#include <iostream>
+#include <windows.h>
+#include <GL/GL.h>
+#include <GL/glut.h>
+#include <math.h>
+
+void drawPolyLineFile(const char* fileName) {
+    std::ifstream inStream(fileName);
+    if (inStream.fail()) return;
+    int numpolys, numLines, x, y;
+    inStream >> numpolys;
+    for (int j = 0; j < numpolys; j++) {
+        inStream >> numLines;
+        glBegin(GL_LINE_STRIP);
+        for (int i = 0; i < numLines; i++) {
+            inStream >> x >> y;
+            glVertex2i(x, y);
+        }
+        glEnd();
+    }
+    glFlush();
+    inStream.close();
+}
+
+void setWindow(float left, float right, float bottom, float top) {
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(left, right, bottom, top);
+}
+
+void setViewport(int left, int bottom, int width, int height) {
+    glViewport(left, bottom, width, height);
+}
+
+void render() {
+    glClear(GL_COLOR_BUFFER_BIT);
+    int displayWidth = glutGet(GLUT_WINDOW_WIDTH);
+    int displayHeight = glutGet(GLUT_WINDOW_HEIGHT);
+    setWindow(0, static_cast<float>(displayWidth), 0, static_cast<float>(displayHeight));
+
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            if ((i + j) % 2 == 0)
+                setWindow(0.0, static_cast<float>(displayWidth), 0.0, static_cast<float>(displayHeight));
+            else
+                setWindow(0.0, static_cast<float>(displayWidth), static_cast<float>(displayHeight), 0.0);
+
+            int viewportWidth = displayWidth / 5;
+            int viewportHeight = displayHeight / 5;
+            glViewport(i * viewportWidth, j * viewportHeight, viewportWidth, viewportHeight);
+            drawPolyLineFile("dino.dat");
+        }
+    }
+
+    glFlush();
+}
+
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowSize(640, 480);
+    glutInitWindowPosition(0, 0);
+    glutCreateWindow("FLIP DINOSAUR");
+    glutDisplayFunc(render);
+    glutMainLoop();
+    return 0;
+}
+
+//Dino with repeated pattern
+*/
+#include <stdio.h>
+#include <fstream>
+#include <iostream>
+#include <windows.h>
+#include <GL/GL.h>
+#include <GL/glut.h>
+#include <math.h>
+
+int displayWidth = 1280; // Change this to your desired display width
+int displayHeight = 720; // Change this to your desired display height
+
+void drawPolyLineFile(const char* fileName) {
+    std::ifstream inStream;
+    inStream.open(fileName); // open the file
+    if (inStream.fail())
+        return;
+
+    GLint numpolys, numLines, x, y;
+    inStream >> numpolys; // read the number of polylines
+
+    for (int j = 0; j < numpolys; j++) { // read each polyline
+        inStream >> numLines;
+        glBegin(GL_LINE_STRIP); // draw the next polyline
+        for (int i = 0; i < numLines; i++) {
+            inStream >> x >> y; // read the next x, y pair
+            glVertex2i(x, y);
+        }
+        glEnd();
+    }
+
+    glFlush();
+    inStream.close();
+}
+
+void setWindow(float left, float right, int bottom, int top) {
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(left, right, bottom, top);
+}
+
+void setViewport(int left, int bottom, int width, int height) {
+    glViewport(left, bottom, width, height);
+}
+
+void render() {
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    setWindow(0, static_cast<float>(displayWidth), 0, static_cast<float>(displayHeight));
+
+    int numColumns = 5;
+    int numRows = 5;
+    int viewportWidth = displayWidth / numColumns;
+    int viewportHeight = displayHeight / numRows;
+
+    for (int i = 0; i < numColumns; i++) {
+        for (int j = 0; j < numRows; j++) {
+            glViewport(i * viewportWidth, j * viewportHeight, viewportWidth, viewportHeight);
+            drawPolyLineFile("dino.dat");
+        }
+    }
+
+    glFlush();
+}
+
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+
+    glutInitWindowSize(displayWidth, displayHeight);
+    glutInitWindowPosition(0, 0);
+    glutCreateWindow("FLIP DINOSAUR");
+    glutDisplayFunc(render);
+    glutMainLoop();
+
+    return 0;
+}
+*/
+
+//Arc Drawing
+/*
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <GL/glut.h>
+#include <windows.h>
+#include <cmath>
+
+class Point2 {
+private:
+    float x, y;
+
+public:
+    Point2(float x_val, float y_val) : x(x_val), y(y_val) {}
+
+    float getX() const {
+        return x;
+    }
+
+    float getY() const {
+        return y;
+    }
+};
+
+void drawAxes() {
+    glColor3f(0.0, 0.0, 0.0); // Set color to black
+
+    glBegin(GL_LINES);
+    glVertex2f(-400, 0);
+    glVertex2f(400, 0);
+    glEnd();
+
+    glBegin(GL_LINES);
+    glVertex2f(0, -300);
+    glVertex2f(0, 300);
+    glEnd();
+}
+
+void drawArc(Point2 center, float radius, float startAngle, float sweep) {
+    const int n = 30;
+    float angle = startAngle * 3.14159265358979323846 / 180;
+    float angleInc = sweep * 3.14159265358979323846 / (180 * n);
+    float cx = center.getX(), cy = center.getY();
+
+    glBegin(GL_LINE_STRIP);
+
+    for (int k = 0; k < n; k++, angle += angleInc) {
+        float x = cx + radius * cos(angle);
+        float y = cy + radius * sin(angle);
+        glVertex2f(x, y);
+    }
+
+    glEnd();
+}
+
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glColor3f(0.0, 0.0, 1.0); // Set color to blue
+    Point2 center(0.0, 0.0); // Center of the arc
+    float radius = 100.0;
+    float startAngle = 45.0;
+    float sweep = 180.0;
+
+    drawAxes();
+    drawArc(center, radius, startAngle, sweep);
+
+    // Draw angle indicator
+    glBegin(GL_LINES);
+    glVertex2f(0.0, 0.0);
+    glVertex2f(radius * cos(startAngle * 3.14159265358979323846 / 180),
+        radius * sin(startAngle * 3.14159265358979323846 / 180));
+    glEnd();
+
+    glFlush();
+}
+
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowSize(800, 600);
+    glutCreateWindow("Arc Drawing");
+    glClearColor(1.0, 1.0, 1.0, 1.0); // Set clear color to white
+    gluOrtho2D(-400, 400, -300, 300); // Set up the coordinate plane
+    glutDisplayFunc(display);
+    glutMainLoop();
+    return 0;
+}
+
+*/
+
+// Flower like Parametric curve plot
+/*
+#include <iostream>
+#include <GL/glut.h>
+#include <windows.h>
+#include <cmath>
+
+const int numLoops = 8;
+const int numPointsPerLoop = 100;
+const float loopRadius = 0.4;
+const float gapAngle = 0.2; // Gap angle between loops
+
+void drawFlower() {
+    glBegin(GL_LINE_STRIP);
+    for (int i = 0; i <= numPointsPerLoop * numLoops; ++i) {
+        float t = 2.0f * 3.1415926f * float(i) / float(numPointsPerLoop * numLoops);
+        float r = loopRadius * cosf(numLoops * t);
+        float x = r * cosf(t);
+        float y = r * sinf(t);
+        glVertex2f(x, y);
+    }
+    glEnd();
+}
+
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT);
+    glColor3f(1.0f, 0.0f, 0.0f); // Set color to red
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    drawFlower();
+    glFlush();
+}
+
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowSize(800, 800);
+    glutInitWindowPosition(100, 100);
+    glutCreateWindow("Flower-like Parametric Curve Plot");
+    glClearColor(1.0f, 1.0f, 1.0f, 0.0f); // Set clear color to white
+    gluOrtho2D(-1.0, 1.0, -1.0, 1.0);
+    glutDisplayFunc(display);
+    glutMainLoop();
+    return 0;
+}
+
+*/
+
+
+
+// Rosette First Figure
+/*
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <cmath>
+#include <GL/glut.h>
+#include <windows.h>
+
+const int screenWidth = 800;
+const int screenHeight = 800;
+
+void drawRosette(int sides, float radius, int centerX, int centerY) {
+    glColor3f(1.0, 0.0, 0.0); // Set color to red
+    glBegin(GL_LINE_LOOP);
+    for (int i = 0; i < sides; i++) {
+        float angle = 2.0 * 3.14159265358979323846 * float(i) / float(sides);
+        float x = radius * cos(angle) + centerX;
+        float y = radius * sin(angle) + centerY;
+        glVertex2f(x, y);
+    }
+    glEnd();
+}
+
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    // Draw a rosette with 11 sides
+    drawRosette(11, 150.0, screenWidth / 2, screenHeight / 2);
+
+    glFlush();
+}
+
+void init() {
+    glClearColor(1.0, 1.0, 1.0, 0.0); // Set background color to white
+    glMatrixMode(GL_PROJECTION);
+    gluOrtho2D(0.0, screenWidth, 0.0, screenHeight);
+}
+
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowSize(screenWidth, screenHeight);
+    glutInitWindowPosition(100, 100);
+    glutCreateWindow("Rosette Test Pattern");
+    init();
+    glutDisplayFunc(display);
+    glutMainLoop();
+    return 0;
+}
+
+
+*/
+
+//Rosette Second Figure
+
+/*
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <cmath>
+#include <GL/glut.h>
+#include <windows.h>
+
+const int screenWidth = 800;
+const int screenHeight = 800;
+
+void drawRosette(int sides, float radius, int centerX, int centerY) {
+    glColor3f(1.0, 0.0, 0.0); // Set color to red
+    glBegin(GL_LINE_LOOP);
+    for (int i = 0; i < sides; i++) {
+        float angle = 2.0 * 3.14159265358979323846 * float(i) / float(sides);
+        float x = radius * cos(angle) + centerX;
+        float y = radius * sin(angle) + centerY;
+        glVertex2f(x, y);
+    }
+    glEnd();
+
+    glBegin(GL_LINES);
+    for (int i = 0; i < sides; i++) {
+        float angle1 = 2.0 * 3.14159265358979323846 * float(i) / float(sides);
+        float x1 = radius * cos(angle1) + centerX;
+        float y1 = radius * sin(angle1) + centerY;
+
+        for (int j = i + 1; j < sides; j++) {
+            float angle2 = 2.0 * 3.14159265358979323846 * float(j) / float(sides);
+            float x2 = radius * cos(angle2) + centerX;
+            float y2 = radius * sin(angle2) + centerY;
+            glVertex2f(x1, y1);
+            glVertex2f(x2, y2);
+        }
+    }
+    glEnd();
+}
+
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    // Draw a rosette with 11 sides and connect vertices with lines
+    drawRosette(11, 150.0, screenWidth / 2, screenHeight / 2);
+
+    glFlush();
+}
+
+void init() {
+    glClearColor(1.0, 1.0, 1.0, 0.0); // Set background color to white
+    glMatrixMode(GL_PROJECTION);
+    gluOrtho2D(0.0, screenWidth, 0.0, screenHeight);
+}
+
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowSize(screenWidth, screenHeight);
+    glutInitWindowPosition(100, 100);
+    glutCreateWindow("Rosette with Connecting Lines");
+    init();
+    glutDisplayFunc(display);
+    glutMainLoop();
+    return 0;
+}
+
+
+*/
+
+//Rosette Third Figure
+/*
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <cmath>
+#include <GL/glut.h>
+#include <windows.h>
+
+const int screenWidth = 800;
+const int screenHeight = 800;
+
+void drawRosette(int sides, float radius, int centerX, int centerY) {
+    glColor3f(1.0, 0.0, 0.0); // Set color to red
+    glBegin(GL_LINE_LOOP);
+    for (int i = 0; i < sides; i++) {
+        float angle = 2.0 * 3.14159265358979323846 * float(i) / float(sides);
+        float x = radius * cos(angle) + centerX;
+        float y = radius * sin(angle) + centerY;
+        glVertex2f(x, y);
+    }
+    glEnd();
+
+    glBegin(GL_LINES);
+    for (int i = 0; i < sides; i++) {
+        float angle1 = 2.0 * 3.14159265358979323846 * float(i) / float(sides);
+        float x1 = radius * cos(angle1) + centerX;
+        float y1 = radius * sin(angle1) + centerY;
+
+        for (int j = i + 1; j < sides; j++) {
+            float angle2 = 2.0 * 3.14159265358979323846 * float(j) / float(sides);
+            float x2 = radius * cos(angle2) + centerX;
+            float y2 = radius * sin(angle2) + centerY;
+            glVertex2f(x1, y1);
+            glVertex2f(x2, y2);
+        }
+    }
+    glEnd();
+
+    // Reconnect vertices with lines
+    glBegin(GL_LINES);
+    for (int i = 0; i < sides; i++) {
+        float angle1 = 2.0 * 3.14159265358979323846 * float(i) / float(sides);
+        float x1 = radius * cos(angle1) + centerX;
+        float y1 = radius * sin(angle1) + centerY;
+
+        float angle2 = 2.0 * 3.14159265358979323846 * float((i + 2) % sides) / float(sides);
+        float x2 = radius * cos(angle2) + centerX;
+        float y2 = radius * sin(angle2) + centerY;
+
+        glVertex2f(x1, y1);
+        glVertex2f(x2, y2);
+
+        // Draw subvertices connecting with each other
+        for (int k = 0; k < sides; k++) {
+            float angle3 = 2.0 * 3.14159265358979323846 * float(k) / float(sides);
+            float x3 = radius * 0.5 * cos(angle3) + x1;
+            float y3 = radius * 0.5 * sin(angle3) + y1;
+
+            for (int l = k + 1; l < sides; l++) {
+                float angle4 = 2.0 * 3.14159265358979323846 * float(l) / float(sides);
+                float x4 = radius * 0.5 * cos(angle4) + x1;
+                float y4 = radius * 0.5 * sin(angle4) + y1;
+                glVertex2f(x3, y3);
+                glVertex2f(x4, y4);
+            }
+        }
+    }
+    glEnd();
+}
+
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    // Draw a rosette with 11 sides and subvertices connecting with lines
+    drawRosette(11, 150.0, screenWidth / 2, screenHeight / 2);
+
+    glFlush();
+}
+
+void init() {
+    glClearColor(1.0, 1.0, 1.0, 0.0); // Set background color to white
+    glMatrixMode(GL_PROJECTION);
+    gluOrtho2D(0.0, screenWidth, 0.0, screenHeight);
+}
+
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowSize(screenWidth, screenHeight);
+    glutInitWindowPosition(100, 100);
+    glutCreateWindow("Rosette with Subvertices and Lines");
+    init();
+    glutDisplayFunc(display);
+    glutMainLoop();
+    return 0;
+}
+
+
+*/
+
+
+//Circle Drawing By using arc Sin(theta) cos(Theta)
+/*
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <GL/glut.h>
+#include <windows.h>
+#include <cmath>
+
+// Circle parameters
+int centerX = 250;
+int centerY = 250;
+int radius = 100;
+int numSegments = 100;
+
+void drawCircle() {
+    glBegin(GL_LINE_LOOP);
+    for (int i = 0; i < numSegments; i++) {
+        float theta = 2.0f * 3.1415926f * float(i) / float(numSegments); // Angle in radians
+        float x = centerX + radius * cos(theta);
+        float y = centerY + radius * sin(theta);
+        glVertex2f(x, y);
+    }
+    glEnd();
+}
+
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT);
+    glColor3f(0.0f, 0.0f, 0.0f); // Set circle color to black
+    drawCircle();
+    glFlush();
+}
+
+void reshape(int width, int height) {
+    glViewport(0, 0, width, height);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0, width, 0, height, -1, 1);
+    glMatrixMode(GL_MODELVIEW);
+}
+
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowSize(500, 500);
+    glutInitWindowPosition(100, 100);
+    glutCreateWindow("Circle Drawing");
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // Set background color to white
+    glutDisplayFunc(display);
+    glutReshapeFunc(reshape);
+    glutMainLoop();
+    return 0;
+}
+
+*/
