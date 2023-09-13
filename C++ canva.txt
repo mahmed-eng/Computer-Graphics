@@ -1,0 +1,95 @@
+#include <GL/glut.h>
+#include <GLFW/glfw3.h>
+#include <vector>
+
+// Structure to represent a rectangle
+struct Rectangle {
+    float x, y, width, height;
+};
+
+// Variables
+GLFWwindow* window;
+std::vector<Rectangle> rectangles;  // Store drawn rectangles
+bool drawing = false;              // Drawing mode flag
+
+// Function to draw a rectangle
+void drawRectangle(float x, float y, float width, float height) {
+    glBegin(GL_QUADS);
+    glColor3f(0.0f, 0.0f, 0.0f); // Black color
+    glVertex2f(x, y);
+    glVertex2f(x + width, y);
+    glVertex2f(x + width, y + height);
+    glVertex2f(x, y + height);
+    glEnd();
+}
+
+// Callback function for mouse input
+void mouseCallback(GLFWwindow* window, int button, int action, int mods) {
+    if (button == GLFW_MOUSE_BUTTON_LEFT) {
+        double xpos, ypos;
+        glfwGetCursorPos(window, &xpos, &ypos);
+
+        if (action == GLFW_PRESS) {
+            drawing = true;
+            Rectangle rect;
+            rect.x = xpos;
+            rect.y = 600 - ypos; // Invert the y-coordinate
+            rect.width = 20;
+            rect.height = 20;
+            rectangles.push_back(rect);
+        } else if (action == GLFW_RELEASE) {
+            drawing = false;
+        }
+    }
+}
+
+// Function to clear the screen
+void clearScreen() {
+    rectangles.clear();
+}
+
+// Main drawing function
+void draw() {
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    // Draw all rectangles
+    for (const Rectangle& rect : rectangles) {
+        drawRectangle(rect.x, rect.y, rect.width, rect.height);
+    }
+
+    glfwSwapBuffers(window);
+}
+
+int main() {
+    // Initialize GLFW
+    if (!glfwInit()) {
+        return -1;
+    }
+
+    // Create a windowed mode window and its OpenGL context
+    window = glfwCreateWindow(800, 600, "Graphics Canvas", NULL, NULL);
+    if (!window) {
+        glfwTerminate();
+        return -1;
+    }
+
+    // Make the window's context current
+    glfwMakeContextCurrent(window);
+
+    // Set the mouse callback function
+    glfwSetMouseButtonCallback(window, mouseCallback);
+
+    // Main loop
+    while (!glfwWindowShouldClose(window)) {
+        // Poll for and process events
+        glfwPollEvents();
+
+        // Draw the scene
+        draw();
+    }
+
+    // Terminate GLFW
+    glfwTerminate();
+
+    return 0;
+}
